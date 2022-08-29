@@ -1,20 +1,20 @@
-import { render } from "@testing-library/react";
-import React from "react";
+import React from 'react';
 
-import { Container, Scroll } from './styled'
+import { Container } from './styles'
 
-import coca from '../../assets/images/coca.png'
-import normal from '../../assets/images/normal.png'
+import Employee from '../Employee';
+import Bottle from '../Bottle'
+
+import machine from '../../assets/images/machine3.gif'
 
 export default function GameBoard() {
+    
   return (
-    <Container>
-          <img src={normal} class='normal'/>
-          <table class='table'/>
-          <Scroll>
-            <p>500ml</p>
-            <img src={coca} class='coca'/>
-          </Scroll>
+    <Container> 
+      <img src={machine} className='machine' alt='background'/>
+      <Employee/>
+      <div className='table'/>
+      <Bottle/>
     </Container>
   )
 }
