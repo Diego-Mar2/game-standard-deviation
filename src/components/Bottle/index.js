@@ -1,36 +1,43 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useRef, useEffect, useState } from 'react';
 
 import coca from '../../assets/images/coca.png'
 import { Container } from '../Bottle/styles';
 
-export default function Bottle({danger}){
+export default function Bottle({ bottleInfo, handleChangeColorState }) {
 
-  const [ random, setRandom ] = useState();
-  const [ correct, setCorrect ] = useState();
+  const bottleRef = useRef();
+
+  const [stateValue, setValue] = useState('500');
 
   useEffect(() => {
-    document.addEventListener('animationiteration', randomNumber)
+    document.addEventListener('animationiteration', randomNumber);
 
-    function randomNumber(){
+    function randomNumber() {
       let min = 490;
       let max = 510;
-      setRandom(Math.floor(Math.random() * (max - min)) + min);
+      setValue(Math.floor(Math.random() * (max - min)) + min);
+
+      bottleRef.current.style.opacity = 1;
     }
 
+    return () => {
+      document.removeEventListener('animationiteration', randomNumber)
+    }
 
-  }, [setRandom, setCorrect])
+  }, [])
 
-  console.log(danger)
-  
+  useEffect(() => {
+
+    const isBlackColor = stateValue >= 495 && stateValue <= 505
+    handleChangeColorState(isBlackColor);
+
+  }, [stateValue, handleChangeColorState])
+
+
   return (
-    <Container>
-      <h1 danger={correct}>{random}</h1>
-      <img src={coca} className='coca' alt='bottle'/>
+    <Container ref={bottleRef} stateColors={bottleInfo.stateColors} className='cocaContainer'>
+      <h1>{stateValue}</h1>
+      <img src={coca} className='coca' alt='bottle' />
     </Container>
   )
-}
-
-Bottle.propTypes = {
-  danger: PropTypes.bool,
 }

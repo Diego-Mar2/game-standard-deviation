@@ -1,35 +1,80 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import normal from '../../assets/images/normal.png'
 import arm from '../../assets/images/arm.png'
+import Header from '../Header'
+
 import { Container } from './styles';
 
-export default function Employee(){
+export default function Employee({ stateColors }) {
 
-  let imagens = {
-    normal,
-    arm
-  }
+  const myRef = useRef();
 
-  function handleEmployeeA(event){
-    if(event.key === ' '){
-      setImage('arm')
-    } 
-  }
-  
-  function handleEmployeeN(event){
-    if(event){
-      setImage('normal')
+  const [points, setPoints] = useState(0)
+  const [lostPoints, setLostPoints] = useState(3)
+
+  useEffect(() => {
+    document.addEventListener('keypress', handleEmployeeActive, true);
+    document.addEventListener('keyup', handleEmployeeDisable, true);
+    document.addEventListener('touchstart', handleEmployeeActive, true);
+    document.addEventListener('touchend', handleEmployeeDisable, true);
+    document.addEventListener('animationiteration', checkLostPoints, true);
+
+    let fired = false;
+
+    const cocaContainer = document.querySelector('.cocaContainer');
+    const gameOver = document.querySelector('.gameOver');
+
+    if (lostPoints === 0) {
+      cocaContainer.style.animationPlayState = 'paused';
+      gameOver.style.opacity = 1;
     }
-  }
-  document.addEventListener('keypress', handleEmployeeA, true); 
-  document.addEventListener('keyup', handleEmployeeN, true)
 
-  const [ imagem, setImage ] = React.useState('normal')  
+    function handleEmployeeActive() {
+      myRef.current.setAttribute('src', arm);
 
-  return(
+      if (fired === false) {
+        fired = true;
+        const employeePosition = myRef.current.offsetLeft;
+        const bottlePosition = cocaContainer.offsetLeft;
+        const rangePickUp = bottlePosition > employeePosition - 50 && bottlePosition < employeePosition + 50
+
+        if (rangePickUp) {
+          if (stateColors === false) {
+            setPoints(points + 10)
+          } else {
+            setLostPoints(lostPoints - 1)
+          }
+          cocaContainer.style.opacity = 0;
+        }
+      }
+    }
+
+    function handleEmployeeDisable() {
+      myRef.current.setAttribute('src', normal);
+      fired = false;
+    }
+
+    function checkLostPoints() {
+      if (stateColors === false && cocaContainer.style.opacity === '1') {
+        setLostPoints(lostPoints - 1)
+      }
+    }
+
+    return () => {
+      document.removeEventListener('keypress', handleEmployeeActive, true);
+      document.removeEventListener('keyup', handleEmployeeDisable, true);
+      document.removeEventListener('touchstart', handleEmployeeActive, true);
+      document.removeEventListener('touchend', handleEmployeeDisable, true);
+      document.removeEventListener('animationiteration', checkLostPoints, true);
+    }
+  }, [points, lostPoints, stateColors])
+
+  return (
     <Container>
-      <img src={imagens[imagem]} className='employee' alt='employee'/>
+      <Header points={points} lostPoints={lostPoints} />
+      <h1 className='gameOver' >GAME OVER</h1>
+      <img src={normal} ref={myRef} className='employee' alt='employee' />
     </Container>
   )
 }

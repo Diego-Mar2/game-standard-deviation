@@ -1,20 +1,30 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { Container } from './styles'
 
 import Employee from '../Employee';
 import Bottle from '../Bottle'
 
-import machine from '../../assets/images/machine3.gif'
-
 export default function GameBoard() {
-    
+
+  const [bottleInfo, setBottleInfo] = useState({
+    stateColors: undefined
+  });
+
+  const handleChangeColorState = useCallback((isBlackColor) => {
+    setBottleInfo((prevState) => {
+      return {
+        ...prevState, 
+        stateColors: isBlackColor
+      }
+    })
+  }, [])
+  
   return (
-    <Container> 
-      <img src={machine} className='machine' alt='background'/>
-      <Employee/>
+    <Container>
+      <Employee stateColors={bottleInfo.stateColors}/>
       <div className='table'/>
-      <Bottle/>
+      <Bottle bottleInfo={bottleInfo} handleChangeColorState={handleChangeColorState}/>
     </Container>
   )
 }

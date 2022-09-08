@@ -4,8 +4,6 @@ import { Container } from './styles'
 
 import GameBoard from '../GameBoard'
 
-
-
 function App() {
   return (
     <>

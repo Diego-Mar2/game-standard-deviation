@@ -11,20 +11,15 @@ const animationCoca = keyframes`
 
 export const Container = styled.div`
     position: absolute;
-    width: 0 auto;
     display: flex;
     flex-direction: column;
     bottom: 15px;
-    left: 470px;
-    
-    animation: ${animationCoca} 4s infinite linear;
+    animation: ${animationCoca} 1.5s infinite linear;   
 
     h1{
-      color: ${({danger}) => (
-        danger ? '#f00' : '#000'
-      )};
+      color: ${({stateColors}) => stateColors ? 'black' : 'red'};
     }
-
+    
       .coca{
         width:20px;
         margin: 0 auto;
