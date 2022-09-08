@@ -15,6 +15,7 @@ export const Container = styled.div`
     flex-direction: column;
     bottom: 15px;
     animation: ${animationCoca} 1.5s infinite linear;   
+    animation-play-state: paused;
 
     h1{
       color: ${({stateColors}) => stateColors ? 'black' : 'red'};

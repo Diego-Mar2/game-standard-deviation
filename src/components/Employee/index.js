@@ -24,14 +24,18 @@ export default function Employee({ stateColors }) {
 
     const cocaContainer = document.querySelector('.cocaContainer');
     const gameOver = document.querySelector('.gameOver');
+    const start = document.querySelector('.start');
 
     if (lostPoints === 0) {
-      cocaContainer.style.animationPlayState = 'paused';
+      cocaContainer.style.animation = 'none';
       gameOver.style.opacity = 1;
     }
 
     function handleEmployeeActive() {
       myRef.current.setAttribute('src', arm);
+
+      cocaContainer.style.animationPlayState = 'running'
+      start.style.opacity = 0;
 
       if (fired === false) {
         fired = true;
@@ -73,7 +77,10 @@ export default function Employee({ stateColors }) {
   return (
     <Container>
       <Header points={points} lostPoints={lostPoints} />
-      <h1 className='gameOver' >GAME OVER</h1>
+      <div className='modal'>
+        <h1 className='gameOver' >GAME OVER</h1>
+        <h1 className='start' >CLICK TO START</h1>
+      </div>
       <img src={normal} ref={myRef} className='employee' alt='employee' />
     </Container>
   )
