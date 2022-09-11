@@ -14,13 +14,12 @@ export const Container = styled.div`
     display: flex;
     flex-direction: column;
     bottom: 15px;
-    animation: ${animationCoca} 1.5s infinite linear;   
+    animation: ${animationCoca} 1.3s infinite linear;   
     animation-play-state: paused;
 
     h1{
-      color: ${({stateColors}) => stateColors ? 'black' : 'red'};
+      color: ${({ stateColors }) => stateColors ? 'black' : 'red'};
     }
-    
       .coca{
         width:20px;
         margin: 0 auto;

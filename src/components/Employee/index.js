@@ -11,7 +11,8 @@ export default function Employee({ stateColors }) {
   const myRef = useRef();
 
   const [points, setPoints] = useState(0)
-  const [lostPoints, setLostPoints] = useState(3)
+  const [lostPoints, setLostPoints] = useState(3) 
+
 
   useEffect(() => {
     document.addEventListener('keypress', handleEmployeeActive, true);
